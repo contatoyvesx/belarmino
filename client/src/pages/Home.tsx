@@ -146,6 +146,8 @@ export default function Home() {
     );
   };
 
+  const navBackground = scrollY > 50 ? 'rgba(42, 9, 6, 0.65)' : 'rgba(42, 9, 6, 0.95)';
+
   return (
     <div className="min-h-screen bg-[#140000] text-white overflow-hidden">
       {/* Animated Background */}
@@ -165,7 +167,10 @@ export default function Home() {
       )}
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-[#2a0906] border-b-2 border-[#D9A66A] z-50 shadow-lg backdrop-blur-md bg-opacity-95 animate-slide-down">
+      <nav
+        className="fixed top-0 w-full bg-[#2a0906] border-b-2 border-[#D9A66A] z-50 shadow-lg backdrop-blur-md animate-slide-down transition-colors duration-300"
+        style={{ backgroundColor: navBackground }}
+      >
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2 group cursor-pointer">
             <span className="text-3xl animate-float">💈</span>
