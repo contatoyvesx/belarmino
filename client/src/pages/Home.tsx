@@ -232,15 +232,13 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <div className="mb-8 animate-bounce-in">
-            <span className="text-6xl md:text-8xl block mb-4 animate-float-rotate">💈</span>
+          <div className="mb-8 animate-fade-in-up">
+            <img
+              src="/belarmino-logo.png"
+              alt="Belarmino Barbershop"
+              className="mx-auto w-48 md:w-64 drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
+            />
           </div>
-          <h2 
-            className="text-5xl md:text-6xl font-bold mb-6 text-[#D9A66A] animate-fade-in-up text-shadow-intense"
-            style={{ fontFamily: "'Great Vibes', cursive", letterSpacing: '2px', fontWeight: '400' }}
-          >
-            Belarmino
-          </h2>
           <p className="text-xl md:text-2xl text-[#E8C8A3] mb-8 animate-fade-in-up animate-color-shift" style={{ animationDelay: '0.2s' }}>
             Estilo Retrô, Qualidade Premium
           </p>
