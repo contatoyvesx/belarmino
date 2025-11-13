@@ -232,22 +232,17 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <div className="mb-8 animate-bounce-in">
-            <span className="text-6xl md:text-8xl block mb-4 animate-float-rotate">💈</span>
+          <div className="mb-8 animate-fade-in-up">
+            <img
+              src="/belarmino-logo.png"
+              alt="Belarmino Barbershop"
+              className="mx-auto w-56 md:w-[26rem] drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
+            />
           </div>
-          <h2 
-            className="text-5xl md:text-6xl font-bold mb-6 text-[#D9A66A] animate-fade-in-up text-shadow-intense"
-            style={{ fontFamily: "'Great Vibes', cursive", letterSpacing: '2px', fontWeight: '400' }}
-          >
-            Belarmino
-          </h2>
           <p className="text-xl md:text-2xl text-[#E8C8A3] mb-8 animate-fade-in-up animate-color-shift" style={{ animationDelay: '0.2s' }}>
             Estilo Retrô, Qualidade Premium
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-8 animate-fade-in-up animate-shimmer" style={{ animationDelay: '0.4s' }}></div>
-          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto animate-fade-in-up blur-in" style={{ animationDelay: '0.6s' }}>
-            Desde 1985, oferecemos cortes clássicos e modernos com a melhor qualidade e atenção ao detalhe.
-          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-12 animate-fade-in-up animate-shimmer" style={{ animationDelay: '0.4s' }}></div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             <button 
               onClick={handleAgendarClick}
