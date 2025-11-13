@@ -236,16 +236,13 @@ export default function Home() {
             <img
               src="/belarmino-logo.png"
               alt="Belarmino Barbershop"
-              className="mx-auto w-64 md:w-[32rem] drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
+              className="mx-auto w-56 md:w-[26rem] drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
             />
           </div>
           <p className="text-xl md:text-2xl text-[#E8C8A3] mb-8 animate-fade-in-up animate-color-shift" style={{ animationDelay: '0.2s' }}>
             Estilo Retrô, Qualidade Premium
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-8 animate-fade-in-up animate-shimmer" style={{ animationDelay: '0.4s' }}></div>
-          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto animate-fade-in-up blur-in" style={{ animationDelay: '0.6s' }}>
-            Desde 1985, oferecemos cortes clássicos e modernos com a melhor qualidade e atenção ao detalhe.
-          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-12 animate-fade-in-up animate-shimmer" style={{ animationDelay: '0.4s' }}></div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             <button 
               onClick={handleAgendarClick}
