@@ -176,7 +176,7 @@ export default function Home() {
             <img
               src="/ícone-fundotransparente.png"
               alt="Ícone Belarmino Barbershop"
-              className="w-10 h-10 animate-float drop-shadow-[0_0_10px_rgba(217,166,106,0.6)]"
+              className="w-10 h-10 drop-shadow-[0_0_10px_rgba(217,166,106,0.6)]"
             />
             <h1 className="text-2xl font-bold text-[#D9A66A] group-hover:animate-neon-glow transition-all duration-300" style={{ fontFamily: "'Playfair Display', serif" }}>
               BELARMINO
