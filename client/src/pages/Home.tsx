@@ -236,7 +236,7 @@ export default function Home() {
             <img
               src="/belarmino-logo.png"
               alt="Belarmino Barbershop"
-              className="mx-auto w-48 md:w-64 drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
+              className="mx-auto w-64 md:w-[32rem] drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
             />
           </div>
           <p className="text-xl md:text-2xl text-[#E8C8A3] mb-8 animate-fade-in-up animate-color-shift" style={{ animationDelay: '0.2s' }}>
