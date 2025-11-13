@@ -287,7 +287,7 @@ export default function Home() {
                   animation: 'fadeInUp 0.8s ease-out forwards'
                 }}
               >
-                <div className="text-5xl mb-4 group-hover:animate-float-rotate transition-all duration-300">{service.icon}</div>
+                <div className="text-5xl mb-4 transition-all duration-300">{service.icon}</div>
                 <h3 className="text-xl font-bold text-[#D9A66A] mb-3 group-hover:animate-neon-glow" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {service.title}
                 </h3>
@@ -495,17 +495,17 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="card-retro hover-lift transition-all-500 group animate-border-glow">
-              <p className="text-3xl mb-4 group-hover:animate-float-rotate">📍</p>
+              <p className="text-3xl mb-4">📍</p>
               <h3 className="text-xl font-bold text-[#D9A66A] mb-2 group-hover:animate-neon-glow">Localização</h3>
               <p className="text-gray-300 group-hover:text-[#E8C8A3] transition-colors">Rua das Flores, 123<br/>Centro - São Paulo, SP</p>
             </div>
             <div className="card-retro cursor-pointer hover-lift transition-all-500 group animate-border-glow" onClick={handleContatoClick}>
-              <p className="text-3xl mb-4 group-hover:animate-float-rotate">📞</p>
+              <p className="text-3xl mb-4">📞</p>
               <h3 className="text-xl font-bold text-[#D9A66A] mb-2 group-hover:animate-neon-glow">Telefone</h3>
               <p className="text-gray-300 group-hover:text-[#E8C8A3] transition-colors">(11) 95286-1321</p>
             </div>
             <div className="card-retro cursor-pointer hover-lift transition-all-500 group animate-border-glow" onClick={handleInstagramClick}>
-              <p className="text-3xl mb-4 group-hover:animate-float-rotate">📷</p>
+              <p className="text-3xl mb-4">📷</p>
               <h3 className="text-xl font-bold text-[#D9A66A] mb-2 group-hover:animate-neon-glow">Instagram</h3>
               <p className="text-gray-300 group-hover:text-[#E8C8A3] transition-colors">@belarmino_barbershop</p>
             </div>
@@ -526,7 +526,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div className="group">
               <h3 className="text-[#D9A66A] font-bold mb-4 flex items-center gap-2 group-hover:animate-neon-glow">
-                <span className="text-2xl animate-float-rotate">💈</span>
+                <span className="text-2xl">💈</span>
                 Belarmino
               </h3>
               <p className="text-gray-400 text-sm group-hover:text-[#E8C8A3] transition-colors">Estilo retrô, qualidade premium desde 1985.</p>
@@ -544,13 +544,13 @@ export default function Home() {
               <div className="flex gap-4">
                 <button 
                   onClick={handleInstagramClick}
-                  className="text-[#D9A66A] hover:text-[#E8C8A3] hover:animate-float-rotate transition text-2xl cursor-pointer"
+                  className="text-[#D9A66A] hover:text-[#E8C8A3] transition text-2xl cursor-pointer"
                 >
                   📷
                 </button>
                 <button 
                   onClick={handleContatoClick}
-                  className="text-[#D9A66A] hover:text-[#E8C8A3] hover:animate-float-rotate transition text-2xl cursor-pointer"
+                  className="text-[#D9A66A] hover:text-[#E8C8A3] transition text-2xl cursor-pointer"
                 >
                   💬
                 </button>
