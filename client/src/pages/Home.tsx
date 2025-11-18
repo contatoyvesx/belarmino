@@ -7,6 +7,7 @@ export default function Home() {
   const [showParticles, setShowParticles] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [aboutCarouselIndex, setAboutCarouselIndex] = useState(0);
   const [barbeariaScrollProgress, setBarbeariaScrollProgress] = useState(0);
   const barbeariaImageRef = useRef<HTMLDivElement>(null);
 
@@ -51,13 +52,14 @@ export default function Home() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Auto-advance carousel every 5 seconds
+  // Auto-advance portfolio carousel every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % portfolio.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
 
   const services = [
     {
@@ -93,6 +95,16 @@ export default function Home() {
     { title: 'Estilo Retrô', image: '/galeria4.png' }
   ];
 
+  const aboutImages = ['/sobre1.jpg', '/sobre2.jpg', '/sobre3.jpg'];
+
+  // Auto-advance about carousel every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAboutCarouselIndex((prev) => (prev + 1) % aboutImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [aboutImages.length]);
+
   const handleAgendarClick = () => {
     setMobileMenuOpen(false);
     window.open('https://wa.me/5511952861321?text=Olá! Gostaria de agendar um horário na Barbearia Belarmino.', '_blank');
@@ -118,6 +130,14 @@ export default function Home() {
 
   const prevSlide = () => {
     setCarouselIndex((prev) => (prev - 1 + portfolio.length) % portfolio.length);
+  };
+
+  const nextAboutSlide = () => {
+    setAboutCarouselIndex((prev) => (prev + 1) % aboutImages.length);
+  };
+
+  const prevAboutSlide = () => {
+    setAboutCarouselIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
   };
 
   const goToSlide = (index: number) => {
@@ -310,12 +330,43 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative overflow-hidden rounded-lg border-4 border-[#D9A66A] shadow-lg hover-glow transition-all duration-300 group">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#D9A66A] to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
-              <img 
-                src="/barbeiro.jpg" 
-                alt="Barbeiro Belarmino" 
-                className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-500 group-hover:brightness-110"
-              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#D9A66A] to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10 pointer-events-none"></div>
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                {aboutImages.map((image, index) => (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={`Belarmino e esposa ${index + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                      index === aboutCarouselIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={prevAboutSlide}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 flex items-center justify-center z-20 transition-colors"
+                aria-label="Imagem anterior sobre"
+              >
+                ‹
+              </button>
+              <button
+                onClick={nextAboutSlide}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 flex items-center justify-center z-20 transition-colors"
+                aria-label="Próxima imagem sobre"
+              >
+                ›
+              </button>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                {aboutImages.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === aboutCarouselIndex ? 'bg-[#D9A66A]' : 'bg-white/40'
+                    }`}
+                  ></span>
+                ))}
+              </div>
             </div>
             <div className="animate-fade-in-up">
               <h2 
