@@ -10,39 +10,26 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --no-frozen-lockfile
 
 COPY . .
-RUN pnpm run build  # gera o dist
+RUN pnpm run build
 
 # ---------------------------
-# 2) Servidor NGINX
+# 2) Runner (Node + Express)
 # ---------------------------
-FROM nginx:stable-alpine AS runner
-WORKDIR /usr/share/nginx/html
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# Remove conteúdo padrão do nginx
-RUN rm -rf ./*
+RUN corepack enable
 
-# Copia os arquivos estáticos do dist
-COPY --from=builder /app/dist ./
+# Copia node_modules sem devDependencies
+COPY --from=builder /app/node_modules ./node_modules
 
-# Copia configuração otimizada para SPA (importante p/ rotas)
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-    server_name _;
+# Copia todo o dist gerado (backend + frontend)
+COPY --from=builder /app/dist ./dist
 
-    root /usr/share/nginx/html;
+# Copia arquivos necessários (caso seu server use env, public, etc)
+COPY package.json ./
 
-    location / {
-        try_files \$uri /index.html;
-    }
+EXPOSE 3000
 
-    location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|webp)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-}
-EOF
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Comando que seu package.json já define
+CMD ["node", "dist/index.js"]
