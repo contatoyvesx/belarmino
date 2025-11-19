@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FormEvent } from 'react';
+import { useState, useEffect, useRef, FormEvent, useMemo } from 'react';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -115,6 +115,20 @@ export default function Home() {
     }, 4000);
     return () => clearInterval(interval);
   }, [aboutImages.length]);
+
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 24 }).map(() => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 6 + Math.random() * 12,
+        blur: 2 + Math.random() * 6,
+        opacity: 0.15 + Math.random() * 0.25,
+        duration: 5 + Math.random() * 4,
+        delay: Math.random() * 3
+      })),
+    []
+  );
 
   const handleAgendarClick = () => {
     setMobileMenuOpen(false);
@@ -294,6 +308,33 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#060200] to-[#160400] opacity-95"></div>
+          <div
+            className="absolute inset-0 opacity-45 mix-blend-screen"
+            style={{
+              background:
+                'radial-gradient(circle at 20% 25%, rgba(217,166,106,0.25), transparent 40%), radial-gradient(circle at 70% 15%, rgba(255,255,255,0.08), transparent 35%), radial-gradient(circle at 40% 80%, rgba(110,35,23,0.2), transparent 45%)'
+            }}
+          ></div>
+          {heroParticles.map((particle, index) => (
+            <span
+              key={`hero-particle-${index}`}
+              className="absolute rounded-full bg-[#d9a66a] mix-blend-screen"
+              style={{
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                opacity: particle.opacity,
+                filter: `blur(${particle.blur}px)`,
+                animation: `float ${particle.duration}s ease-in-out infinite`,
+                animationDelay: `${particle.delay}s`
+              }}
+            ></span>
+          ))}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+        </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <div className="mb-8 animate-fade-in-up">
             <img
