@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FormEvent, useMemo } from 'react';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -9,6 +9,11 @@ export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [aboutCarouselIndex, setAboutCarouselIndex] = useState(0);
   const [barbeariaScrollProgress, setBarbeariaScrollProgress] = useState(0);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [customerName, setCustomerName] = useState('');
+  const [preferredTime, setPreferredTime] = useState('');
+  const [notes, setNotes] = useState('');
+  const [formError, setFormError] = useState('');
   const barbeariaImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,6 +93,12 @@ export default function Home() {
     }
   ];
 
+  const serviceOptions = [
+    { id: 'corte', label: 'Corte', icon: '✂️' },
+    { id: 'barba', label: 'Barba', icon: '🧔' },
+    { id: 'sobrancelha', label: 'Sobrancelha', icon: '✨' }
+  ];
+
   const portfolio = [
     { title: 'Corte Fade', image: '/galeria1.png' },
     { title: 'Barba Desenhada', image: '/galeria2.png' },
@@ -105,6 +116,20 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [aboutImages.length]);
 
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 24 }).map(() => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 6 + Math.random() * 12,
+        blur: 2 + Math.random() * 6,
+        opacity: 0.15 + Math.random() * 0.25,
+        duration: 5 + Math.random() * 4,
+        delay: Math.random() * 3
+      })),
+    []
+  );
+
   const handleAgendarClick = () => {
     setMobileMenuOpen(false);
     window.open('https://wa.me/5511952861321?text=Olá! Gostaria de agendar um horário na Barbearia Belarmino.', '_blank');
@@ -118,6 +143,34 @@ export default function Home() {
   const handleInstagramClick = () => {
     setMobileMenuOpen(false);
     window.open('https://instagram.com/belarmino_barbershop', '_blank');
+  };
+
+  const toggleService = (label: string) => {
+    setSelectedServices((prev) =>
+      prev.includes(label) ? prev.filter((item) => item !== label) : [...prev, label]
+    );
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!selectedServices.length) {
+      setFormError('Selecione pelo menos um serviço.');
+      return;
+    }
+
+    setFormError('');
+
+    const summary = `👤 Cliente: ${customerName}\n✂️ Serviços: ${selectedServices.join(' • ')}\n🕒 Quando: ${
+      preferredTime || 'A combinar'
+    }\n📝 Observações: ${notes || 'Sem observações'}`;
+
+    window.open(`https://wa.me/5511952861321?text=${encodeURIComponent(summary)}`, '_blank');
+
+    setSelectedServices([]);
+    setCustomerName('');
+    setPreferredTime('');
+    setNotes('');
   };
 
   const handleMobileMenuClose = () => {
@@ -254,7 +307,34 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#060200] to-[#160400] opacity-95"></div>
+          <div
+            className="absolute inset-0 opacity-45 mix-blend-screen"
+            style={{
+              background:
+                'radial-gradient(circle at 20% 25%, rgba(217,166,106,0.25), transparent 40%), radial-gradient(circle at 70% 15%, rgba(255,255,255,0.08), transparent 35%), radial-gradient(circle at 40% 80%, rgba(110,35,23,0.2), transparent 45%)'
+            }}
+          ></div>
+          {heroParticles.map((particle, index) => (
+            <span
+              key={`hero-particle-${index}`}
+              className="absolute rounded-full bg-[#d9a66a] mix-blend-screen"
+              style={{
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                opacity: particle.opacity,
+                filter: `blur(${particle.blur}px)`,
+                animation: `float ${particle.duration}s ease-in-out infinite`,
+                animationDelay: `${particle.delay}s`
+              }}
+            ></span>
+          ))}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+        </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <div className="mb-8 animate-fade-in-up">
             <img
@@ -540,7 +620,7 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contato" className="py-20 px-4 bg-[#140000] relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 
+          <h2
             className="text-4xl font-bold mb-4 text-[#D9A66A] text-shadow-gold"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
@@ -566,12 +646,94 @@ export default function Home() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handleAgendarClick}
             className="btn-retro inline-block mb-8 cursor-pointer hover-lift transition-all-500 animate-pulse-scale"
           >
             Agendar via WhatsApp
           </button>
+
+          <div className="max-w-3xl mx-auto">
+            <div className="card-retro text-left p-8 space-y-6">
+              <div>
+                <h3
+                  className="text-2xl font-bold text-[#D9A66A] mb-2"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  Monte seu pedido
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  Escolha o que você precisa e envie o resumo direto para o nosso WhatsApp. Sem formulários chatos.
+                </p>
+              </div>
+
+              <form className="space-y-6" onSubmit={handleFormSubmit}>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label className="space-y-2 text-sm font-semibold text-[#D9A66A]">
+                    Nome
+                    <input
+                      type="text"
+                      value={customerName}
+                      onChange={(event) => setCustomerName(event.target.value)}
+                      required
+                      placeholder="Como podemos te chamar?"
+                      className="w-full rounded-md bg-[#1b0402] border border-[#6e2317] px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#D9A66A] focus:ring-1 focus:ring-[#D9A66A]"
+                    />
+                  </label>
+                  <label className="space-y-2 text-sm font-semibold text-[#D9A66A]">
+                    Melhor horário
+                    <input
+                      type="text"
+                      value={preferredTime}
+                      onChange={(event) => setPreferredTime(event.target.value)}
+                      placeholder="Ex.: sábado de manhã"
+                      className="w-full rounded-md bg-[#1b0402] border border-[#6e2317] px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#D9A66A] focus:ring-1 focus:ring-[#D9A66A]"
+                    />
+                  </label>
+                </div>
+
+                <div>
+                  <p className="text-sm font-semibold text-[#D9A66A] mb-3">Serviços desejados</p>
+                  <div className="flex flex-wrap gap-3">
+                    {serviceOptions.map((option) => {
+                      const isActive = selectedServices.includes(option.label);
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => toggleService(option.label)}
+                          className={`px-4 py-2 rounded-full border transition-all duration-300 text-sm font-semibold flex items-center gap-2 hover-lift ${
+                            isActive
+                              ? 'bg-[#D9A66A] text-[#140000] border-[#E8C8A3] shadow-[0_0_20px_rgba(217,166,106,0.5)]'
+                              : 'bg-[#1b0402] text-[#E8C8A3] border-[#6e2317] hover:border-[#D9A66A]'
+                          }`}
+                        >
+                          <span className="text-base">{option.icon}</span>
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {formError && <p className="text-sm text-red-400 mt-2">{formError}</p>}
+                </div>
+
+                <label className="space-y-2 text-sm font-semibold text-[#D9A66A] block">
+                  Observações
+                  <textarea
+                    value={notes}
+                    onChange={(event) => setNotes(event.target.value)}
+                    rows={3}
+                    placeholder="Algum detalhe importante?"
+                    className="w-full rounded-md bg-[#1b0402] border border-[#6e2317] px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#D9A66A] focus:ring-1 focus:ring-[#D9A66A]"
+                  />
+                </label>
+
+                <button type="submit" className="btn-retro w-full justify-center cursor-pointer">
+                  Enviar resumo no WhatsApp 💬
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
 
