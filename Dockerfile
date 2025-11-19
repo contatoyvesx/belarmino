@@ -1,50 +1,48 @@
 # ---------------------------
-# 1) Dependências (cacheável)
-# ---------------------------
-FROM node:20-alpine AS deps
-WORKDIR /app
-
-# Habilita PNPM via Corepack
-RUN corepack enable
-
-# Copia somente os arquivos do PNPM (melhor cache)
-COPY package.json pnpm-lock.yaml ./
-
-# Instala dependências SEM frozen-lockfile
-RUN pnpm install --no-frozen-lockfile
-
-
-# ---------------------------
-# 2) Build da aplicação
+# 1) Build da aplicação
 # ---------------------------
 FROM node:20-alpine AS builder
 WORKDIR /app
 
 RUN corepack enable
 
-# Copia node_modules do stage anterior
-COPY --from=deps /app/node_modules ./node_modules
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --no-frozen-lockfile
 
-# Copia todo o projeto
 COPY . .
-
-# Build do frontend (ou do seu app)
-RUN pnpm run build
-
+RUN pnpm run build  # gera o dist
 
 # ---------------------------
-# 3) Runner — apenas arquivos estáticos
+# 2) Servidor NGINX
 # ---------------------------
-FROM node:20-alpine AS runner
-WORKDIR /app
+FROM nginx:stable-alpine AS runner
+WORKDIR /usr/share/nginx/html
 
-# Copia apenas o resultado final (dist)
-COPY --from=builder /app/dist ./dist
+# Remove conteúdo padrão do nginx
+RUN rm -rf ./*
 
-# Instala um servidor estático simples (caso precise)
-RUN npm install -g serve
+# Copia os arquivos estáticos do dist
+COPY --from=builder /app/dist ./
 
-EXPOSE 3000
+# Copia configuração otimizada para SPA (importante p/ rotas)
+COPY <<EOF /etc/nginx/conf.d/default.conf
+server {
+    listen 80;
+    server_name _;
 
-# Comando para servir a aplicação
-CMD ["serve", "-s", "dist", "-l", "3000"]
+    root /usr/share/nginx/html;
+
+    location / {
+        try_files \$uri /index.html;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|webp)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+EOF
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
