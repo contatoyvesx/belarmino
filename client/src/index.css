@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;500;600;700&family=Great+Vibes&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -199,6 +199,11 @@
     @apply font-bold tracking-tight;
   }
 
+  .brand-script {
+    font-family: 'Great Vibes', cursive;
+    letter-spacing: 0.08em;
+  }
+
   /* Retro Buttons */
   .btn-retro {
     @apply relative px-6 py-3 font-bold text-sm uppercase tracking-wider transition-all duration-300;
@@ -236,6 +241,46 @@
   /* Divider */
   .divider-gold {
     @apply h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent;
+  }
+
+  .hero-overlay {
+    background: radial-gradient(circle at 20% 20%, rgba(217, 166, 106, 0.08), transparent 35%),
+      radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.05), transparent 28%),
+      radial-gradient(circle at 60% 70%, rgba(110, 35, 23, 0.12), transparent 40%),
+      linear-gradient(135deg, rgba(20, 0, 0, 0.9), rgba(12, 1, 0, 0.9));
+  }
+
+  .barber-frame {
+    position: relative;
+    border: 3px solid #d9a66a;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(217, 166, 106, 0.05), rgba(20, 0, 0, 0.6));
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55), 0 0 0 8px rgba(65, 18, 12, 0.6);
+  }
+
+  .barber-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.35));
+    pointer-events: none;
+  }
+
+  .barber-stripes {
+    background: repeating-linear-gradient(45deg, rgba(217, 166, 106, 0.1) 0, rgba(217, 166, 106, 0.1) 12px,
+        transparent 12px, transparent 24px);
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold text-[#D9A66A] text-center;
+    font-family: 'Playfair Display', serif;
+    text-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .eyebrow {
+    @apply uppercase tracking-[0.3em] text-xs text-[#E8C8A3];
+    letter-spacing: 0.28em;
   }
 
   /* Animations */

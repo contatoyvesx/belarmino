@@ -245,15 +245,20 @@ export default function Home() {
         style={{ backgroundColor: navBackground }}
       >
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2 group cursor-pointer">
-            <img
-              src="/ícone-fundotransparente.png"
-              alt="Ícone Belarmino Barbershop"
-              className="w-10 h-10 drop-shadow-[0_0_10px_rgba(217,166,106,0.6)]"
-            />
-            <h1 className="text-2xl font-bold text-[#D9A66A] group-hover:animate-neon-glow transition-all duration-300" style={{ fontFamily: "'Playfair Display', serif" }}>
-              BELARMINO
-            </h1>
+          <div className="flex items-center gap-3 group cursor-pointer">
+            <div className="w-11 h-11 rounded-full border-2 border-[#D9A66A] bg-black/40 flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.45)]">
+              <img
+                src="/ícone-fundotransparente.png"
+                alt="Ícone Belarmino Barbershop"
+                className="w-8 h-8 drop-shadow-[0_0_10px_rgba(217,166,106,0.5)]"
+              />
+            </div>
+            <div>
+              <p className="brand-script text-2xl md:text-3xl text-[#E8C8A3] leading-none transition-colors group-hover:text-[#D9A66A]">
+                Belarmino
+              </p>
+              <p className="uppercase text-[10px] tracking-[0.32em] text-[#D9A66A]">Barber Shop</p>
+            </div>
           </div>
           <ul className="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-wider">
             <li><a href="#servicos" className="text-[#E8C8A3] hover:text-[#D9A66A] hover:animate-color-shift transition">Serviços</a></li>
@@ -307,78 +312,96 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 min-h-screen flex items-center justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#060200] to-[#160400] opacity-95"></div>
-          <div
-            className="absolute inset-0 opacity-45 mix-blend-screen"
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden bg-[#0c0100]">
+        <div className="absolute inset-0 z-0 hero-overlay"></div>
+        <div className="absolute inset-0 barber-stripes opacity-10"></div>
+        {heroParticles.map((particle, index) => (
+          <span
+            key={`hero-particle-${index}`}
+            className="absolute rounded-full bg-[#d9a66a] mix-blend-screen"
             style={{
-              background:
-                'radial-gradient(circle at 20% 25%, rgba(217,166,106,0.25), transparent 40%), radial-gradient(circle at 70% 15%, rgba(255,255,255,0.08), transparent 35%), radial-gradient(circle at 40% 80%, rgba(110,35,23,0.2), transparent 45%)'
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              opacity: particle.opacity,
+              filter: `blur(${particle.blur}px)`,
+              animation: `float ${particle.duration}s ease-in-out infinite`,
+              animationDelay: `${particle.delay}s`
             }}
-          ></div>
-          {heroParticles.map((particle, index) => (
-            <span
-              key={`hero-particle-${index}`}
-              className="absolute rounded-full bg-[#d9a66a] mix-blend-screen"
-              style={{
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                left: `${particle.x}%`,
-                top: `${particle.y}%`,
-                opacity: particle.opacity,
-                filter: `blur(${particle.blur}px)`,
-                animation: `float ${particle.duration}s ease-in-out infinite`,
-                animationDelay: `${particle.delay}s`
-              }}
-            ></span>
-          ))}
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <div className="mb-8 animate-fade-in-up">
-            <img
-              src="/belarmino-logo.png"
-              alt="Belarmino Barbershop"
-              className="mx-auto w-56 md:w-[26rem] drop-shadow-[0_0_25px_rgba(217,166,106,0.4)]"
-            />
+          ></span>
+        ))}
+
+        <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+          <div className="space-y-6 animate-fade-in-up">
+            <p className="eyebrow">Barbearia Belarmino</p>
+            <h1 className="text-5xl md:text-6xl text-[#E8C8A3] font-black leading-tight">
+              Estilo <span className="brand-script text-6xl md:text-7xl text-[#D9A66A]">Belarmino</span>
+            </h1>
+            <p className="text-lg text-gray-200 max-w-2xl">
+              O visual clássico de uma barbearia tradicional com acabamento premium. Um espaço pensado para quem valoriza bom atendimento, precisão e sofisticação.
+            </p>
+            <div className="flex flex-wrap gap-4 text-sm text-[#E8C8A3]">
+              <span className="px-3 py-2 rounded-full border border-[#D9A66A]/50 bg-[#1a0503]/70 shadow-lg">Cortes masculinos exclusivos</span>
+              <span className="px-3 py-2 rounded-full border border-[#D9A66A]/50 bg-[#1a0503]/70 shadow-lg">Design de barba</span>
+              <span className="px-3 py-2 rounded-full border border-[#D9A66A]/50 bg-[#1a0503]/70 shadow-lg">Pigmentação de alto padrão</span>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={handleAgendarClick}
+                className="btn-retro cursor-pointer hover-lift transition-all-500 animate-pulse-scale"
+              >
+                Agendar Agora
+              </button>
+              <button
+                onClick={handleContatoClick}
+                className="btn-retro-outline cursor-pointer hover-lift transition-all-500 hover:animate-border-glow"
+              >
+                Entre em Contato
+              </button>
+            </div>
+            <div className="flex items-center gap-6 text-sm text-[#E8C8A3]">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">💈</span>
+                <div>
+                  <p className="font-semibold">Desde 1985</p>
+                  <p className="text-gray-400">Tradição em Santo André</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⭐</span>
+                <div>
+                  <p className="font-semibold">Atendimento Premium</p>
+                  <p className="text-gray-400">Horários flexíveis</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-xl md:text-2xl text-[#E8C8A3] mb-8 animate-fade-in-up animate-color-shift" style={{ animationDelay: '0.2s' }}>
-            Estilo Retrô, Qualidade Premium
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-12 animate-fade-in-up animate-shimmer" style={{ animationDelay: '0.4s' }}></div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-            <button 
-              onClick={handleAgendarClick}
-              className="btn-retro cursor-pointer hover-lift transition-all-500 animate-pulse-scale"
-            >
-              Agendar Agora
-            </button>
-            <button 
-              onClick={handleContatoClick}
-              className="btn-retro-outline cursor-pointer hover-lift transition-all-500 hover:animate-border-glow"
-            >
-              Entre em Contato
-            </button>
+
+          <div className="relative animate-slide-in-right">
+            <div className="absolute -left-10 -top-10 w-40 h-40 bg-[#D9A66A]/15 blur-3xl"></div>
+            <div className="absolute -right-12 bottom-6 w-48 h-48 bg-[#6e2317]/25 blur-3xl"></div>
+            <div className="barber-frame">
+              <img src="/barbeiro.jpg" alt="Barbeiro da Belarmino" className="w-full h-full object-cover" />
+              <div className="absolute top-4 right-4 bg-black/70 border border-[#D9A66A] text-[#E8C8A3] px-4 py-2 rounded-full uppercase text-[11px] tracking-[0.25em] shadow-lg">
+                Desde 1985
+              </div>
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-[#D9A66A] text-[#140000] px-6 py-3 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.6)] font-bold uppercase tracking-[0.15em]">
+                35+ anos de tradição
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-wave">
-          <div className="text-[#D9A66A] text-2xl">↓</div>
-        </div>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-wave text-[#D9A66A] text-2xl">↓</div>
       </section>
 
       {/* Services Section */}
       <section id="servicos" className="py-20 px-4 bg-[#2a0906] relative z-10">
         <div className="max-w-6xl mx-auto">
-          <h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-4 text-[#D9A66A] animate-fade-in-up text-shadow-gold"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Nossos Serviços
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-16 animate-shimmer"></div>
+          <p className="eyebrow text-center mb-2">Serviços premium</p>
+          <h2 className="section-title mb-3 animate-fade-in-up">Nossos Serviços</h2>
+          <div className="divider-gold mx-auto mb-16 w-24 animate-shimmer"></div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
@@ -449,12 +472,11 @@ export default function Home() {
               </div>
             </div>
             <div className="animate-fade-in-up">
-              <h2 
-                className="text-4xl font-bold mb-6 text-[#D9A66A] text-shadow-gold"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+              <p className="eyebrow mb-2">Tradição e família</p>
+              <h2 className="text-4xl font-bold mb-3 text-[#D9A66A] text-shadow-gold" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Sobre Belarmino
               </h2>
+              <div className="divider-gold w-16 mb-6"></div>
               <p className="text-gray-300 mb-4 leading-relaxed hover:text-[#E8C8A3] transition-colors">
                 Há mais de 35 anos, a Barbearia Belarmino é referência em estilo e qualidade na região. Nossos barbeiros são profissionais experientes que combinam técnicas clássicas com tendências modernas.
               </p>
@@ -483,13 +505,9 @@ export default function Home() {
       {/* Portfolio Section - Carousel */}
       <section id="portfolio" className="py-20 px-4 bg-[#2a0906] relative z-10">
         <div className="max-w-4xl mx-auto">
-          <h2 
-            className="text-4xl md:text-5xl font-bold text-center mb-4 text-[#D9A66A] animate-fade-in-up text-shadow-gold"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Galeria de Trabalhos
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-16 animate-shimmer"></div>
+          <p className="eyebrow text-center mb-2">Portfólio real</p>
+          <h2 className="section-title mb-3 animate-fade-in-up">Galeria de Trabalhos</h2>
+          <div className="divider-gold mx-auto mb-16 w-24 animate-shimmer"></div>
 
           {/* Carousel Container */}
           <div className="relative max-w-2xl mx-auto">
@@ -620,13 +638,9 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contato" className="py-20 px-4 bg-[#140000] relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2
-            className="text-4xl font-bold mb-4 text-[#D9A66A] text-shadow-gold"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Entre em Contato
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A66A] to-transparent mx-auto mb-12 animate-shimmer"></div>
+          <p className="eyebrow text-center mb-2">Fale com a barbearia</p>
+          <h2 className="section-title mb-3">Entre em Contato</h2>
+          <div className="divider-gold mx-auto mb-12 w-24 animate-shimmer"></div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="card-retro hover-lift transition-all-500 group animate-border-glow">
